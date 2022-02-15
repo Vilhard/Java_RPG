@@ -1,6 +1,8 @@
 package Characters;
 
 import Attributes.PrimaryAttributes;
+import CustomExceptions.InvalidArmorException;
+import CustomExceptions.InvalidWeaponException;
 import Items.Armor;
 import Items.Item;
 import Items.Weapon;
@@ -20,22 +22,18 @@ public class Rogue extends Hero{
                 basePrimaryAttributes.Dexterity + leveledUpAttributes.Dexterity, basePrimaryAttributes.Intelligence + leveledUpAttributes.Intelligence);
     }
     @Override
-    public void EquipItem(Armor armor) {
+    public void EquipItem(Armor armor) throws InvalidArmorException {
         if(armor.CheckUsageAbility(this)) {
             Equipment.put(armor.slot, armor);
             totalPrimaryAttributes = new PrimaryAttributes(basePrimaryAttributes.Strength + armor.attributes.Strength,
                     basePrimaryAttributes.Dexterity + armor.attributes.Dexterity, basePrimaryAttributes.Intelligence + armor.attributes.Intelligence);
-        } else {
-            throw new IllegalArgumentException("You cannot use this armor!");
-        }
+        } else throw new InvalidArmorException("You cannot use this armor!");
     }
     @Override
-    public void EquipItem(Weapon weapon) {
+    public void EquipItem(Weapon weapon) throws InvalidWeaponException {
         if(weapon.CheckUsageAbility(this)) {
             Equipment.put(Item.Slot.WEAPON, weapon);
             Dps = weapon.Damage * (double)(1 + (totalPrimaryAttributes.Dexterity / 100));
-        } else {
-            throw new IllegalArgumentException("You cannot use this armor!");
-        }
+        } else throw new InvalidWeaponException("You cannot use this Weapon!");
     }
 }

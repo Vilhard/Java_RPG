@@ -1,6 +1,8 @@
 package Characters;
 
 import Attributes.PrimaryAttributes;
+import CustomExceptions.InvalidArmorException;
+import CustomExceptions.InvalidWeaponException;
 import Items.Armor;
 import Items.Item;
 import Items.Weapon;
@@ -56,16 +58,10 @@ public abstract class Hero {
         Equipment.put(Item.Slot.WEAPON, null);
     }
     public abstract void LevelUp();
-    public abstract void EquipItem(Armor armor);
-    public abstract void EquipItem(Weapon weapon);
-
-    public void PrintCharacterStats() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Character name" + name);
-        sb.append("Character level" + level);
-        sb.append("Strength" + totalPrimaryAttributes.Strength);
-        sb.append("Dexterity" + totalPrimaryAttributes.Dexterity);
-        sb.append("Intellect" + totalPrimaryAttributes.Intelligence);
-        sb.append("DPS" + Dps);
+    public abstract void EquipItem(Armor armor) throws InvalidArmorException;
+    public abstract void EquipItem(Weapon weapon) throws InvalidWeaponException;
+    public void printCharacterStats(Hero hero) {
+        CharacterStatPrinter printer = new CharacterStatPrinter();
+        printer.PrintCharacterStats(hero);
     }
 }
