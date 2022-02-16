@@ -28,4 +28,14 @@ public class PrimaryAttributes {
         Dexterity = dexterity;
         Intelligence = intelligence;
     }
+
+    public PrimaryAttributes addAttributes(PrimaryAttributes levelingUpAttributes) {
+        return (new PrimaryAttributes(getStrength() + levelingUpAttributes.getStrength(),
+                getDexterity() + levelingUpAttributes.getDexterity(), getIntelligence() + levelingUpAttributes.getIntelligence()));
+    }
+    public PrimaryAttributes removeAttributes(PrimaryAttributes removeAttributes) {
+        return (new PrimaryAttributes(getStrength() + removeAttributes.getStrength(),
+                getDexterity() + removeAttributes.getDexterity(), getIntelligence() + removeAttributes.getIntelligence()));
+    }
+
 }

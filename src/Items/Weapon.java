@@ -1,6 +1,6 @@
 package Items;
 
-import Characters.Hero;
+import Characters.*;
 
 public class Weapon extends Item {
     public enum TypesOfWeapons
@@ -16,54 +16,70 @@ public class Weapon extends Item {
     public TypesOfWeapons weaponType;
     public int Damage;
     public double AttackSpeed = 1;
-    public double Dps() {
-        return Damage * AttackSpeed;
+
+    public double getWeaponDps() {
+        return WeaponDps;
     }
+
+    public void setWeaponDps(double weaponDps) {
+        WeaponDps = weaponDps;
+    }
+
+    public double WeaponDps;
+
+    public Weapon() {
+        super();
+    }
+
+    public Weapon (String name, int level, TypesOfWeapons weaponType) {
+        super(name);
+        setLevel(level);
+        setWeaponType(weaponType);
+        setSlot(Slot.WEAPON);
+    }
+    public Weapon(String name, int level, TypesOfWeapons weaponType, int damage, double attackSpeed) {
+        super(name);
+        setLevel(level);
+        setWeaponType(weaponType);
+        setDamage(damage);
+        setAttackSpeed(attackSpeed);
+        setWeaponDps(damage * AttackSpeed);
+        setSlot(Slot.WEAPON);
+    }
+    @Override
+    public boolean CheckUsageAbility(Hero hero) {
+        System.out.println(super.getLevel() > hero.getLevel());
+        if (super.getLevel() > hero.getLevel()) {
+            return false;
+        } if (hero instanceof Mage) {
+            return (getWeaponType().equals(TypesOfWeapons.STAFF) || getWeaponType().equals(TypesOfWeapons.WAND));
+        } else if (hero instanceof Warrior) {
+            return (getWeaponType().equals(TypesOfWeapons.AXE) || getWeaponType().equals(TypesOfWeapons.HAMMER)
+                    || getWeaponType().equals(TypesOfWeapons.SWORD));
+        } else if (hero instanceof Rogue) {
+            return (getWeaponType().equals(TypesOfWeapons.DAGGER) || getWeaponType().equals(TypesOfWeapons.SWORD));
+        } else if (hero instanceof Ranger) {
+            return (getWeaponType().equals(TypesOfWeapons.BOW));
+        }
+        return false;
+    }
+
     public int getDamage() {
         return Damage;
-    }
-    public void setDamage(int damage) {
-        Damage = damage;
     }
     public double getAttackSpeed() {
         return AttackSpeed;
     }
-    public void setAttackSpeed(double attackSpeed) {
-        AttackSpeed = attackSpeed;
-    }
     public TypesOfWeapons getWeaponType() {
         return weaponType;
     }
-    public void setWeaponType(TypesOfWeapons weaponType) {
-        this.weaponType = weaponType;
-    }
-    public Weapon(String name, int level, Slot slot, TypesOfWeapons weaponType, int damage, double attackSpeed) {
-        super(name, level, slot);
-        this.weaponType = weaponType;
+    public void setDamage(int damage) {
         Damage = damage;
+    }
+    public void setAttackSpeed(double attackSpeed) {
         AttackSpeed = attackSpeed;
     }
-    @Override
-    public boolean CheckUsageAbility(Hero hero) {
-        if (level > hero.level) {
-            return false;
-        } else if (hero.getClass().getSimpleName().equals("Mage")) {
-            if (weaponType == TypesOfWeapons.STAFF || weaponType == TypesOfWeapons.WAND) {
-                return true;
-            } else return false;
-        } else if (hero.getClass().getSimpleName().equals("Warrior")) {
-            if (weaponType == TypesOfWeapons.AXE || weaponType == TypesOfWeapons.HAMMER ||  weaponType == TypesOfWeapons.SWORD) {
-                return true;
-            } else return false;
-        } else if (hero.getClass().getSimpleName().equals("Rogue")) {
-            if (weaponType == TypesOfWeapons.DAGGER || weaponType == TypesOfWeapons.SWORD) {
-                return true;
-            } else return false;
-        } else if (hero.getClass().getSimpleName().equals("Ranger")) {
-            if (weaponType == TypesOfWeapons.BOW) {
-                return true;
-            } else return false;
-        }
-        return false;
+    public void setWeaponType(TypesOfWeapons weaponType) {
+        this.weaponType = weaponType;
     }
 }

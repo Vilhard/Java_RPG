@@ -11,8 +11,14 @@ public abstract class Item {
         WEAPON
     }
     public String name;
-    public int level = 1;
+    public int level;
     public Slot slot;
+
+    public Item() { }
+    public Item(String name) {
+        setName(name);
+    }
+    public abstract boolean CheckUsageAbility(Hero hero);
     public String getName() {
         return name;
     }
@@ -31,10 +37,4 @@ public abstract class Item {
     public void setSlot(Slot slot) {
         slot = slot;
     }
-    public Item(String name, int level, Slot slot) {
-        this.name = name;
-        this.level = level;
-        this.slot = slot;
-    }
-    public abstract boolean CheckUsageAbility(Hero hero);
 }

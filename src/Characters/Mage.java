@@ -8,32 +8,46 @@ import Items.Item;
 import Items.Weapon;
 
 public class Mage extends Hero{
+    public PrimaryAttributes getLeveledUpAttributes() {
+        return leveledUpAttributes;
+    }
+
+    public void setLeveledUpAttributes(PrimaryAttributes leveledUpAttributes) {
+        this.leveledUpAttributes = leveledUpAttributes;
+    }
+
     public PrimaryAttributes leveledUpAttributes;
-    public PrimaryAttributes totalPrimaryAttributes;
     public Mage(String name) {
         super(name);
-        basePrimaryAttributes = new PrimaryAttributes(1,1,8);
-        leveledUpAttributes = new PrimaryAttributes(1,1,5);
+        setBasePrimaryAttributes(new PrimaryAttributes(1,1,8));
+        setLeveledUpAttributes(new PrimaryAttributes(1,1,5));
+        setTotalMainPrimaryAttribute(getBasePrimaryAttributes().Intelligence);
     }
     @Override
     public void LevelUp() {
-        level += 1;
-        basePrimaryAttributes = new PrimaryAttributes(basePrimaryAttributes.Strength + leveledUpAttributes.Strength,
-                basePrimaryAttributes.Dexterity + leveledUpAttributes.Dexterity, basePrimaryAttributes.Intelligence + leveledUpAttributes.Intelligence);
+        setLevel(getLevel() +1);
+        setTotalPrimaryAttributes(getBasePrimaryAttributes().addAttributes(getLeveledUpAttributes()));
     }
     @Override
-    public void EquipItem(Armor armor) throws InvalidArmorException {
+    public boolean EquipItem(Armor armor) throws InvalidArmorException {
         if(armor.CheckUsageAbility(this)) {
-            Equipment.put(armor.slot, armor);
-            totalPrimaryAttributes = new PrimaryAttributes(basePrimaryAttributes.Strength + armor.attributes.Strength,
-                    basePrimaryAttributes.Dexterity + armor.attributes.Dexterity, basePrimaryAttributes.Intelligence + armor.attributes.Intelligence);
-        }  else throw new InvalidArmorException("You cannot use this armor!");
+            if (getEquipment().get(armor.getSlot()) != null) {
+                Armor currentArmor = (Armor) getEquipment().get(armor.getSlot());
+                setTotalPrimaryAttributes(getTotalPrimaryAttributes().removeAttributes(currentArmor.getAttributes()));
+                getEquipment().put(armor.slot, armor);
+            } else {
+                getEquipment().put(armor.slot, armor);
+            }
+            setTotalPrimaryAttributes(getBasePrimaryAttributes().addAttributes(armor.getAttributes()));
+            return true;
+        } else throw new InvalidArmorException("You cannot use this armor!");
     }
     @Override
-    public void EquipItem(Weapon weapon) throws InvalidWeaponException {
+    public boolean EquipItem(Weapon weapon) throws InvalidWeaponException {
         if(weapon.CheckUsageAbility(this)) {
-            Equipment.put(Item.Slot.WEAPON, weapon);
-            Dps = weapon.Damage * (double)(1 + (totalPrimaryAttributes.Intelligence / 100));
+            getEquipment().put(Item.Slot.WEAPON, weapon);
+            setDps();
+            return true;
         } else throw new InvalidWeaponException("You cannot use this Weapon!");
     }
 }

@@ -7,15 +7,30 @@ import Items.Armor;
 import Items.Item;
 import Items.Weapon;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Hero {
     public String name;
-    public int level;
+    public int level = 1;
     public PrimaryAttributes basePrimaryAttributes;
     public PrimaryAttributes totalPrimaryAttributes;
-    public double Dps;
+    public double Dps = 1;
+    public double totalMainPrimaryAttribute;
     public Map<Item.Slot, Item> Equipment;
+    public Hero(String name) {
+        setName(name);
+        setBasePrimaryAttributes(basePrimaryAttributes);
+        setTotalPrimaryAttributes(totalPrimaryAttributes);
+        EquipmentInitialization();
+    }
+    private void EquipmentInitialization() {
+        HashMap<Item.Slot, Item> equipment= new HashMap<>();
+        setEquipment(equipment);
+    }
+    public abstract void LevelUp();
+    public abstract boolean EquipItem(Armor armor) throws InvalidArmorException;
+    public abstract boolean EquipItem(Weapon weapon) throws InvalidWeaponException;
     public PrimaryAttributes getBasePrimaryAttributes() {
         return basePrimaryAttributes;
     }
@@ -46,22 +61,26 @@ public abstract class Hero {
     public void setLevel(int level) {
         this.level = level;
     }
-
-    public Hero(String name) {
-        this.name = name;
-        EquipmentInitialization();
+    public double getTotalMainPrimaryAttribute() {
+        return totalMainPrimaryAttribute;
     }
-    private void EquipmentInitialization() {
-        Equipment.put(Item.Slot.HEAD, null);
-        Equipment.put(Item.Slot.BODY, null);
-        Equipment.put(Item.Slot.LEGS, null);
-        Equipment.put(Item.Slot.WEAPON, null);
+    public void setTotalMainPrimaryAttribute(double totalMainPrimaryAttribute) {
+        this.totalMainPrimaryAttribute = totalMainPrimaryAttribute;
     }
-    public abstract void LevelUp();
-    public abstract void EquipItem(Armor armor) throws InvalidArmorException;
-    public abstract void EquipItem(Weapon weapon) throws InvalidWeaponException;
+    public double getDps() {
+        return Dps;
+    }
+    public void setDps() {
+        if(getEquipment().get(Item.Slot.WEAPON) == null) {
+            this.Dps = 1 * (1 + getTotalMainPrimaryAttribute()/100);
+        } else {
+            Weapon currentWeapon = (Weapon) getEquipment().get(Item.Slot.WEAPON);
+            this.Dps = currentWeapon.getWeaponDps() * (1 + getTotalMainPrimaryAttribute()/100);
+        }
+    }
     public void printCharacterStats(Hero hero) {
         CharacterStatPrinter printer = new CharacterStatPrinter();
         printer.PrintCharacterStats(hero);
     }
+
 }
