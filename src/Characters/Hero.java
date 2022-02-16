@@ -24,6 +24,10 @@ public abstract class Hero {
         setTotalPrimaryAttributes(totalPrimaryAttributes);
         EquipmentInitialization();
     }
+
+    /**
+     * initialize equipment with defined slots
+     */
     private void EquipmentInitialization() {
         HashMap<Item.Slot, Item> equipment= new HashMap<>();
         setEquipment(equipment);
@@ -70,6 +74,10 @@ public abstract class Hero {
     public double getDps() {
         return Dps;
     }
+
+    /**
+     * Checks if weapon is equipped for counting damage modifier
+     */
     public void setDps() {
         if(getEquipment().get(Item.Slot.WEAPON) == null) {
             this.Dps = 1 * (1 + getTotalMainPrimaryAttribute()/100);
@@ -78,6 +86,11 @@ public abstract class Hero {
             this.Dps = currentWeapon.getWeaponDps() * (1 + getTotalMainPrimaryAttribute()/100);
         }
     }
+
+    /**
+     * Prints the stat's of the hero
+     * @param hero
+     */
     public void printCharacterStats(Hero hero) {
         CharacterStatPrinter printer = new CharacterStatPrinter();
         printer.PrintCharacterStats(hero);

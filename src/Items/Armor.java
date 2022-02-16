@@ -20,6 +20,12 @@ public class Armor extends Item {
         setAttributes(attributes);
         setSlot(slot);
     }
+
+    /**
+     * Checks and returns boolean value that represents the usability of the item with hero class that calls the method
+     * @param hero
+     * @return
+     */
     @Override
     public boolean CheckUsageAbility(Hero hero) {
         if (super.getLevel() > hero.level) {

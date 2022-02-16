@@ -23,11 +23,22 @@ public class Mage extends Hero{
         setLeveledUpAttributes(new PrimaryAttributes(1,1,5));
         setTotalMainPrimaryAttribute(getBasePrimaryAttributes().Intelligence);
     }
+
+    /**
+     * increases Hero level and attributes
+     */
     @Override
     public void LevelUp() {
         setLevel(getLevel() +1);
         setTotalPrimaryAttributes(getBasePrimaryAttributes().addAttributes(getLeveledUpAttributes()));
     }
+
+    /**
+     * Removes occupied slot with new armor and increases attributes
+     * @param armor
+     * @return
+     * @throws InvalidArmorException
+     */
     @Override
     public boolean EquipItem(Armor armor) throws InvalidArmorException {
         if(armor.CheckUsageAbility(this)) {
@@ -42,6 +53,13 @@ public class Mage extends Hero{
             return true;
         } else throw new InvalidArmorException("You cannot use this armor!");
     }
+
+    /**
+     * Adds weapon to hero and updated attributes
+     * @param weapon
+     * @return
+     * @throws InvalidWeaponException
+     */
     @Override
     public boolean EquipItem(Weapon weapon) throws InvalidWeaponException {
         if(weapon.CheckUsageAbility(this)) {

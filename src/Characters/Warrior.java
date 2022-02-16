@@ -24,6 +24,9 @@ public class Warrior extends Hero{
         setTotalMainPrimaryAttribute(getBasePrimaryAttributes().Strength);
         setDps();
     }
+    /**
+     * increases Hero level and attributes
+     */
     @Override
     public void LevelUp() {
         setLevel(getLevel() +1);
@@ -31,6 +34,12 @@ public class Warrior extends Hero{
         setDps();
         printCharacterStats(this);
     }
+    /**
+     * Removes occupied slot with new armor and increases attributes
+     * @param armor
+     * @return
+     * @throws InvalidArmorException
+     */
     @Override
     public boolean EquipItem(Armor armor) throws InvalidArmorException {
         if (armor.CheckUsageAbility(this)) {
@@ -46,6 +55,12 @@ public class Warrior extends Hero{
             return true;
         } else throw new InvalidArmorException("You cannot use this Armor!");
     }
+    /**
+     * Adds weapon to hero and updated attributes
+     * @param weapon
+     * @return
+     * @throws InvalidWeaponException
+     */
     @Override
     public boolean EquipItem(Weapon weapon) throws InvalidWeaponException {
         if(weapon.CheckUsageAbility(this)) {

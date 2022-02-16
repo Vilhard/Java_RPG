@@ -29,10 +29,21 @@ public class PrimaryAttributes {
         Intelligence = intelligence;
     }
 
+    /**
+     * summing two different sets of attributes that will be used to count total
+     * @param levelingUpAttributes
+     * @return
+     */
     public PrimaryAttributes addAttributes(PrimaryAttributes levelingUpAttributes) {
         return (new PrimaryAttributes(getStrength() + levelingUpAttributes.getStrength(),
                 getDexterity() + levelingUpAttributes.getDexterity(), getIntelligence() + levelingUpAttributes.getIntelligence()));
     }
+
+    /**
+     * subtracting values of different set of attributes
+     * @param removeAttributes
+     * @return
+     */
     public PrimaryAttributes removeAttributes(PrimaryAttributes removeAttributes) {
         return (new PrimaryAttributes(getStrength() + removeAttributes.getStrength(),
                 getDexterity() + removeAttributes.getDexterity(), getIntelligence() + removeAttributes.getIntelligence()));

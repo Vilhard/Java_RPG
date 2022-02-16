@@ -46,6 +46,11 @@ public class Weapon extends Item {
         setWeaponDps(damage * AttackSpeed);
         setSlot(Slot.WEAPON);
     }
+    /**
+     * Checks and returns boolean value that represents the usability of the item with hero class that calls the method
+     * @param hero
+     * @return
+     */
     @Override
     public boolean CheckUsageAbility(Hero hero) {
         System.out.println(super.getLevel() > hero.getLevel());
