@@ -1,9 +1,9 @@
 package Attributes;
 
 public class PrimaryAttributes {
-    public int Strength = 0;
-    public int Dexterity = 0;
-    public int Intelligence = 0;
+    public int Strength;
+    public int Dexterity;
+    public int Intelligence;
 
     public int getStrength() {
         return Strength;
